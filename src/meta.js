@@ -36,31 +36,37 @@ function contarResultados(actions = [], tipos) {
 }
 
 /**
- * Devuelve las campañas con entrega en `fecha` (YYYY-MM-DD), con las mismas columnas
- * que el informe exportado del Administrador de anuncios:
+ * Devuelve las campañas con entrega entre `desde` y `hasta` (YYYY-MM-DD, ambos incluidos), con las
+ * mismas columnas que el informe exportado del Administrador de anuncios. Resultados y gasto son el
+ * acumulado del período; el presupuesto es el diario configurado.
  * [{ nombre, entrega: 'active' | 'inactive', presupuesto, resultados, gasto }]
  */
-export async function obtenerCampanas({ token, cuenta, fecha, version, tiposResultado }) {
+export async function obtenerCampanas({ token, cuenta, desde, hasta, version, tiposResultado }) {
   const act = cuenta.startsWith('act_') ? cuenta : `act_${cuenta}`;
   const raiz = `${BASE}/${version}`;
   const q = (p) => new URLSearchParams({ ...p, access_token: token }).toString();
 
   const filas = await getTodo(`${raiz}/${act}/insights?` + q({
     level: 'campaign',
-    time_range: JSON.stringify({ since: fecha, until: fecha }),
+    time_range: JSON.stringify({ since: desde, until: hasta }),
     fields: 'campaign_id,campaign_name,spend,actions',
     limit: '500',
   }));
   if (!filas.length) return [];
 
   const ids = filas.map((f) => f.campaign_id);
-  const info = {};
-  for (let i = 0; i < ids.length; i += 50) {
-    Object.assign(info, await get(`${raiz}/?` + q({
-      ids: ids.slice(i, i + 50).join(','),
-      fields: 'name,effective_status,daily_budget,objective',
-    })));
+  const campos = { fields: 'id,name,effective_status,daily_budget', limit: '500' };
+  let campanas;
+  try {
+    campanas = await getTodo(`${raiz}/${act}/campaigns?` + q({
+      ...campos,
+      filtering: JSON.stringify([{ field: 'id', operator: 'IN', value: ids }]),
+    }));
+  } catch {
+    // Si Meta no acepta el filtro por id, se leen todas las campañas de la cuenta.
+    campanas = await getTodo(`${raiz}/${act}/campaigns?` + q(campos));
   }
+  const info = Object.fromEntries(campanas.map((c) => [c.id, c]));
 
   // Campañas sin presupuesto a nivel campaña (presupuesto por conjunto): se suma el diario de sus conjuntos.
   const sinPpto = ids.filter((id) => !info[id]?.daily_budget);
