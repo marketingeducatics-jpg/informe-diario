@@ -10,8 +10,11 @@ on:
         description: 'Enviar al chat de Bitrix24'
         type: boolean
         default: false
-      fecha:
-        description: 'Fecha del informe AAAA-MM-DD (vacío = ayer)'
+      desde:
+        description: 'Desde AAAA-MM-DD (vacío = automático; el lunes toma vie-sáb-dom)'
+        required: false
+      hasta:
+        description: 'Hasta AAAA-MM-DD (vacío = ayer)'
         required: false
       demo:
         description: 'Usar datos de ejemplo (12 oct 2026) en lugar de Meta'
@@ -46,7 +49,8 @@ jobs:
           META_TOKEN: ${{ secrets.META_TOKEN }}
           BITRIX_WEBHOOK_URL: ${{ secrets.BITRIX_WEBHOOK_URL }}
           BITRIX_CHAT_ID: ${{ secrets.BITRIX_CHAT_ID }}
-          FECHA: ${{ inputs.fecha }}
+          DESDE: ${{ inputs.desde }}
+          HASTA: ${{ inputs.hasta }}
 
       - name: Guardar imagen generada
         if: always()
