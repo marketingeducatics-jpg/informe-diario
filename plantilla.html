@@ -81,7 +81,7 @@
 
 <!--DATOS-->
 <script>
-/* window.INFORME = { periodo: "YYYY-MM-DD", generado: "YYYY-MM-DD",
+/* window.INFORME = { desde: "YYYY-MM-DD", hasta: "YYYY-MM-DD", generado: "YYYY-MM-DD",
      campanas: [{ nombre, entrega, presupuesto, resultados, gasto }] } */
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -109,7 +109,14 @@ function render(D){
   const activas = form.filter(d=>!d.off).length;
 
   /* encabezado */
-  const per = fecha(D.periodo, {day:"2-digit",month:"short",year:"numeric"}).replace(/\./g,"");
+  const corto = (iso, o) => fecha(iso, o).replace(/\./g,"");
+  const [ai, mi] = D.desde.split("-"), [af, mf] = D.hasta.split("-");
+  const dias = Math.round((new Date(D.hasta) - new Date(D.desde)) / 864e5) + 1;
+  const per = D.desde === D.hasta ? corto(D.hasta, {day:"2-digit",month:"short",year:"numeric"})
+    : (ai!==af ? corto(D.desde, {day:"2-digit",month:"short",year:"numeric"})
+       : mi!==mf ? corto(D.desde, {day:"2-digit",month:"short"})
+       : corto(D.desde, {day:"2-digit"}))
+      + " – " + corto(D.hasta, {day:"2-digit",month:"short",year:"numeric"}) + ` (${dias} días)`;
   $("subhead").innerHTML =
     `Cuenta publicitaria EDUCATICS &nbsp;·&nbsp; Período <strong>${per}</strong>`+
     ` &nbsp;·&nbsp; ${data.length} campañas con entrega<br>`+

@@ -57,12 +57,12 @@ En **Actions → Informe diario Meta Ads → Run workflow**:
 - Sin marcar nada: lee los datos de Meta de ayer y genera la imagen **sin enviarla**. Descárgala desde *Artifacts* para revisarla.
 - Marcando **Enviar al chat de Bitrix24**: la publica de verdad. Para la primera prueba conviene poner temporalmente un chat de prueba en `BITRIX_CHAT_ID`.
 
-Desde ese momento el informe sale solo de lunes a viernes. Si una ejecución falla, GitHub te avisa por correo y puedes relanzarla a mano. También puedes indicar una fecha distinta en el campo *fecha*.
+Desde ese momento el informe sale solo de lunes a viernes. Si una ejecución falla, GitHub te avisa por correo y puedes relanzarla a mano. También puedes indicar otro período en los campos *desde* / *hasta*.
 
 ## Ajustes
 
 - **Feriados:** agrega fechas a `config.json → "feriados"`, por ejemplo `["2026-11-02", "2026-11-03", "2026-12-25"]`. Esos días no se envía el informe.
-- **Lunes:** el informe del lunes muestra el domingo, igual que el resto de días muestra el día anterior.
+- **Período:** cada informe cubre desde el último día laborable hasta ayer. De martes a viernes es el día anterior; el lunes son viernes, sábado y domingo; después de un feriado se incluye el feriado. Leads, costo por lead y gasto son el acumulado del período. El presupuesto es el diario configurado. Para otro período usa *desde* / *hasta* en *Run workflow*.
 - **Leads:** se cuentan como "Clientes potenciales (formulario)" (`onsite_conversion.lead_grouped`), igual que la columna *Resultados* del Administrador de anuncios.
 - **Hora de envío:** modifica la línea `cron` del workflow (está en hora UTC; Ecuador = UTC − 5).
 - **Versión de la API de Meta:** `config.json → metaApiVersion`. Meta retira cada versión unos 2 años después de publicarla.
