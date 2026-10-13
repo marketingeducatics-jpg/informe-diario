@@ -1,0 +1,205 @@
+{
+    "periodo":  "2026-10-12",
+    "campanas":  [
+                     {
+                         "nombre":  "- Diplo Auditoria Cooperativas - 26/ago/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  12,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  3,
+                         "gasto":  14.92
+                     },
+                     {
+                         "nombre":  "- Curso peritaje automotriz - 05/04/2026 - MKT1",
+                         "entrega":  "inactive",
+                         "presupuesto":  8,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  1,
+                         "gasto":  4.23
+                     },
+                     {
+                         "nombre":  "- Diplo Pro IA para Contabilidad y tributación- 10/sep/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  4,
+                         "gasto":  11.77
+                     },
+                     {
+                         "nombre":  "- Curso Excel Power Bi e IA - 26/ago/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  8,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  3,
+                         "gasto":  8.41
+                     },
+                     {
+                         "nombre":  "- Diplo compras públicas - 10/sep/2026 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  12,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  5,
+                         "gasto":  13.5
+                     },
+                     {
+                         "nombre":  "- Curso propiedades horizontales - 12/10/2026 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  5,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  1,
+                         "gasto":  2.58
+                     },
+                     {
+                         "nombre":  "- Diplo SSO - 18/12/2025 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  12,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  6,
+                         "gasto":  14.12
+                     },
+                     {
+                         "nombre":  "- Curso perito avaluador - 19/12/2025 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  6,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  3,
+                         "gasto":  6.56
+                     },
+                     {
+                         "nombre":  "* Diplo perito avaluador - 27-4-26 - MKT2",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  5,
+                         "gasto":  10.88
+                     },
+                     {
+                         "nombre":  "- Diplo Docencia Universitaria - 27/ago/2026 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  12,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  7,
+                         "gasto":  13.23
+                     },
+                     {
+                         "nombre":  "- Curso compras públicas - 18/12/2025 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  6,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  3,
+                         "gasto":  5.55
+                     },
+                     {
+                         "nombre":  "- Diplo DECE - 04/sep/26 - MKT1",
+                         "entrega":  "inactive",
+                         "presupuesto":  12,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  4,
+                         "gasto":  7.36
+                     },
+                     {
+                         "nombre":  "* Curso en Perito en Topografía - 4/9/26 - MKT2",
+                         "entrega":  "active",
+                         "presupuesto":  8,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  5,
+                         "gasto":  8.56
+                     },
+                     {
+                         "nombre":  "- Diplo Gerencia Educativa- 10/sep/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  7,
+                         "gasto":  10.48
+                     },
+                     {
+                         "nombre":  "- Curso pedagogía educación física - 07/Sep/2026 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  8,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  6,
+                         "gasto":  8.14
+                     },
+                     {
+                         "nombre":  "- Curso Peritaje en Ingenieria Civil - 17/ago/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  8,
+                         "gasto":  10.6
+                     },
+                     {
+                         "nombre":  "- Diplo Cobranzas - 25/sep/2026 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  9,
+                         "gasto":  11.72
+                     },
+                     {
+                         "nombre":  "- Curso Inspector General - 18/ago/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  9,
+                         "gasto":  11.19
+                     },
+                     {
+                         "nombre":  "* Diplo Oficiales de Cumplimiento - 24-8-26 - MKT2",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  10,
+                         "gasto":  11.85
+                     },
+                     {
+                         "nombre":  "* Curso Formación Formadores - 17/11/2025 - MKT2",
+                         "entrega":  "active",
+                         "presupuesto":  5,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  5,
+                         "gasto":  5.88
+                     },
+                     {
+                         "nombre":  "- Curso Peritaje Grafológico- 08/sep/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  10,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  10,
+                         "gasto":  10.51
+                     },
+                     {
+                         "nombre":  "- Curso Peritaje Agropecuario - 14-ago-26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  8,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  8,
+                         "gasto":  7.84
+                     },
+                     {
+                         "nombre":  "- Curso Maestro Sombra - 27/ago/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  8,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  10,
+                         "gasto":  9.78
+                     },
+                     {
+                         "nombre":  "* Curso ASI - 10/4/2026 - MKT2",
+                         "entrega":  "active",
+                         "presupuesto":  6,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  8,
+                         "gasto":  6.63
+                     },
+                     {
+                         "nombre":  "- Curso Importaciones desde 0 - 10/9/26 - MKT1",
+                         "entrega":  "active",
+                         "presupuesto":  8,
+                         "tipoResultado":  "Clientes potenciales (formulario)",
+                         "resultados":  12,
+                         "gasto":  8.75
+                     }
+                 ]
+}

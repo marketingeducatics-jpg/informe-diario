@@ -1,0 +1,6 @@
+node_modules/
+salida/
+*.lnk
+Informe-diario.xlsx
+informe_diario_meta_*.png
+.env

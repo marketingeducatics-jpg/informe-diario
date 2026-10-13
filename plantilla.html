@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Informe Diario Meta Ads — EDUCATICS</title>
+<!-- Estilos y reglas copiados de "dashboard informe diario - actualizado.html". -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--bg:#f3f4f6;--card:#fff;--brand:#0b3a67;--brand2:#1769aa}
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;color:var(--ink);
+       font-family:"Segoe UI","Noto Sans",system-ui,-apple-system,Roboto,Arial,sans-serif}
+  #shot{width:1180px;background:var(--card);padding:26px 26px 22px}
+  header{border-bottom:3px solid var(--brand);padding-bottom:14px;margin-bottom:18px}
+  h1{margin:0;font-size:22px;letter-spacing:.4px;color:var(--brand)}
+  .sub{margin-top:6px;font-size:12.5px;color:var(--muted);line-height:1.6}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:18px}
+  .kpi{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:12px 12px 10px}
+  .kpi .lb{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+  .kpi .vl{font-size:21px;font-weight:700;margin-top:4px;color:var(--brand)}
+  .kpi .nt{font-size:10.5px;color:var(--muted);margin-top:2px}
+  .alert{background:#fef2f2;border:1px solid #fecaca;border-left:4px solid #b91c1c;border-radius:8px;
+         padding:10px 14px;font-size:12.5px;color:#7f1d1d;margin-bottom:18px;display:none}
+  .alert.show{display:block}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);
+     margin:22px 0 8px;border-left:4px solid var(--brand);padding-left:8px}
+  .blk{display:none}.blk.show{display:block}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{background:#f1f5f9;color:#374151;text-align:right;padding:9px 10px;font-size:11px;
+     text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--line)}
+  th:first-child{text-align:left}
+  td{padding:8px 10px;text-align:right;border-bottom:1px solid #f1f5f9;white-space:nowrap}
+  td:first-child{text-align:left;white-space:normal}
+  tbody tr:nth-child(even) td{background:#fcfcfd}
+  tr.inactiva td{color:#9ca3af;background:#f4f4f5 !important;font-style:italic}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:10.5px;font-weight:600}
+  .on{background:#dcfce7;color:#166534}.off{background:#e5e7eb;color:#6b7280}
+  .cst{font-weight:700;border-radius:6px;padding:4px 9px;display:inline-block;min-width:64px}
+  .c1{background:#b91c1c;color:#fff}.c2{background:#fecaca;color:#7f1d1d}.c3{background:#fed7aa;color:#7c2d12}
+  .c4{background:#fef08a;color:#713f12}.c5{background:#d9f99d;color:#3f6212}.c6{background:#86efac;color:#14532d}
+  .cn{background:#e5e7eb;color:#6b7280}
+  tfoot td{font-weight:700;background:#f1f5f9;border-top:2px solid var(--line);font-size:13px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;font-size:11px;align-items:center}
+  .legend span.k{padding:3px 9px;border-radius:6px;font-weight:600}
+  footer{margin-top:18px;border-top:1px solid var(--line);padding-top:10px;font-size:11px;color:var(--muted);
+         display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div id="shot">
+  <header>
+    <h1>INFORME DIARIO — META ADS · EDUCATICS</h1>
+    <div class="sub" id="subhead"></div>
+  </header>
+  <div class="kpis" id="kpis"></div>
+  <div class="alert" id="alert"></div>
+
+  <div class="blk show" id="blkForm">
+    <h2>Campañas — formulario instantáneo</h2>
+    <table>
+      <thead><tr><th>Campaña</th><th>Entrega</th><th>Ppto. diario</th><th>Leads</th><th>Costo / lead</th><th>Gasto</th></tr></thead>
+      <tbody id="tb"></tbody>
+      <tfoot id="tf"></tfoot>
+    </table>
+  </div>
+
+  <div class="legend">
+    <strong style="font-size:11px;color:#6b7280">SEMÁFORO COSTO/RESULTADO:</strong>
+    <span class="k c1">&gt; $5,00</span><span class="k c2">$3,00 – $4,99</span><span class="k c3">$2,00 – $2,99</span>
+    <span class="k c4">$1,50 – $1,99</span><span class="k c5">$1,00 – $1,49</span><span class="k c6">&lt; $1,00</span>
+    <span class="k cn">sin resultados</span>
+    <span style="color:#9ca3af;font-style:italic">Fila gris = campaña inactiva</span>
+  </div>
+
+  <footer>
+    <span>EDUCATICS — Centro de Capacitación y Certificación Profesional</span>
+    <span>Fuente: API de Marketing de Meta · Informe automático</span>
+  </footer>
+</div>
+
+<!--DATOS-->
+<script>
+/* window.INFORME = { periodo: "YYYY-MM-DD", generado: "YYYY-MM-DD",
+     campanas: [{ nombre, entrega, presupuesto, resultados, gasto }] } */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const m = n => n===null?"—":"$"+n.toFixed(2).replace(".",",");
+const int = n => n===null?"—":n.toLocaleString("es-EC");
+const fecha = (iso, opts) => new Date(iso+"T12:00:00Z").toLocaleDateString("es-EC", {timeZone:"UTC", ...opts});
+
+function clase(c){ if(c>=5)return"c1"; if(c>=3)return"c2"; if(c>=2)return"c3";
+                   if(c>=1.5)return"c4"; if(c>=1)return"c5"; return"c6"; }
+
+function render(D){
+  const data = D.campanas.map(c=>{
+    const res = c.resultados ?? null;
+    return { nombre:c.nombre, entrega:c.entrega, off:!/^active$/i.test(c.entrega),
+             bud:c.presupuesto ?? null, res, cpr: res ? c.gasto/res : null, gasto:c.gasto };
+  });
+
+  const form = data;
+  const ord = (a,b)=>{ if(a.cpr===null) return 1; if(b.cpr===null) return -1; return b.cpr-a.cpr; };
+  form.sort(ord);
+
+  const sum = (arr,k)=>arr.reduce((s,d)=>s+(d[k]||0),0);
+  const gastoF=sum(form,"gasto"), leads=sum(form,"res"), budF=sum(form,"bud");
+  const cpl = leads? gastoF/leads : null;
+  const activas = form.filter(d=>!d.off).length;
+
+  /* encabezado */
+  const per = fecha(D.periodo, {day:"2-digit",month:"short",year:"numeric"}).replace(/\./g,"");
+  $("subhead").innerHTML =
+    `Cuenta publicitaria EDUCATICS &nbsp;·&nbsp; Período <strong>${per}</strong>`+
+    ` &nbsp;·&nbsp; ${data.length} campañas con entrega<br>`+
+    `Generado el ${fecha(D.generado, {day:"numeric",month:"long",year:"numeric"})}`+
+    ` &nbsp;·&nbsp; Ordenado por costo por resultado (mayor a menor)`;
+
+  /* KPIs */
+  const kpi=(lb,vl,nt)=>`<div class="kpi"><div class="lb">${lb}</div><div class="vl">${vl}</div><div class="nt">${nt}</div></div>`;
+  $("kpis").innerHTML =
+    kpi("Gasto total", m(gastoF), per) +
+    kpi("Leads formulario", int(leads), form.length+" campañas") +
+    kpi("CPL promedio", cpl===null?"—":m(cpl), "costo por lead") +
+    kpi("Campañas activas", activas, form.length-activas+" inactivas") +
+    kpi("Ppto. diario config.", m(budF), "suma de campañas");
+
+  /* alerta automática */
+  const caras = form.filter(d=>d.cpr!==null && d.cpr>=3 && !d.off);
+  const cero  = data.filter(d=>!d.off && (d.res===0||d.res===null) && d.gasto>0);
+  let av=[];
+  if(cero.length) av.push(`<strong>${cero.length} campaña${cero.length>1?"s":""} gastó sin registrar resultados</strong> (`
+     +cero.slice(0,3).map(d=>esc(d.nombre.replace(/^[-*]\s*/,""))+" "+m(d.gasto)).join(" · ")+(cero.length>3?" …":"")+").");
+  if(caras.length) av.push(`<strong>${caras.length} campaña${caras.length>1?"s":""} sobre $3 por resultado</strong>, con `
+     +m(sum(caras,"gasto"))+` para ${int(sum(caras,"res"))} resultados.`);
+  if(!data.length) av.push("<strong>Sin entrega:</strong> ninguna campaña registró gasto en el período.");
+  if(av.length){ $("alert").innerHTML="<strong>Atención:</strong> "+av.join(" "); $("alert").classList.add("show"); }
+
+  /* filas */
+  const fila = d => {
+    const cell = d.cpr===null ? '<span class="cst cn">—</span>'
+                              : `<span class="cst ${d.off?"":clase(d.cpr)}">${m(d.cpr)}</span>`;
+    return `<tr class="${d.off?"inactiva":""}">
+      <td>${esc(d.nombre)}</td>
+      <td><span class="pill ${d.off?"off":"on"}">${esc(d.entrega||"—")}</span></td>
+      <td>${d.bud===null?"—":m(d.bud)}</td>
+      <td>${d.res===null?"—":int(d.res)}</td>
+      <td>${cell}</td>
+      <td>${m(d.gasto)}</td></tr>`;
+  };
+  $("tb").innerHTML = form.map(fila).join("");
+  $("tf").innerHTML = `<tr><td>TOTAL formulario (${form.length} campañas)</td><td></td>
+      <td>${m(budF)}</td><td>${int(leads)}</td><td>${cpl===null?"—":m(cpl)}</td><td>${m(gastoF)}</td></tr>`;
+  document.body.dataset.listo = "1";
+}
+render(window.INFORME);
+</script>
+</body>
+</html>

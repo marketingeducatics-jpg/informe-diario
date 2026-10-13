@@ -1,0 +1,15 @@
+{
+  "name": "informe-diario-meta-ads",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Informe diario de Meta Ads (EDUCATICS) enviado como imagen al chat de Bitrix24",
+  "scripts": {
+    "informe": "node informe.js",
+    "prueba": "node informe.js --no-enviar",
+    "demo": "node informe.js --demo --solo-html"
+  },
+  "dependencies": {
+    "playwright": "1.55.0"
+  }
+}

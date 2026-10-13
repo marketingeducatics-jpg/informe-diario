@@ -1,0 +1,8 @@
+{
+  "cuentaPublicitaria": "act_208537584721591",
+  "zonaHoraria": "America/Guayaquil",
+  "mensaje": "Buenos días, adjunto detalle de campañas.\nSaludos cordiales.",
+  "metaApiVersion": "v24.0",
+  "tiposResultado": ["onsite_conversion.lead_grouped", "lead", "leadgen_grouped"],
+  "feriados": []
+}
