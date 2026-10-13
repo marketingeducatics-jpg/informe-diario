@@ -1,0 +1,58 @@
+name: Informe diario Meta Ads
+
+on:
+  schedule:
+    # Lunes a viernes 12:45 UTC = 07:45 Ecuador (GitHub puede retrasarlo unos minutos).
+    - cron: '45 12 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      enviar:
+        description: 'Enviar al chat de Bitrix24'
+        type: boolean
+        default: false
+      fecha:
+        description: 'Fecha del informe AAAA-MM-DD (vacío = ayer)'
+        required: false
+      demo:
+        description: 'Usar datos de ejemplo (12 oct 2026) en lugar de Meta'
+        type: boolean
+        default: false
+
+concurrency: informe-diario
+
+jobs:
+  informe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar dependencias
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Generar y enviar informe
+        run: >-
+          node informe.js
+          ${{ inputs.demo && '--demo' || '' }}
+          ${{ github.event_name == 'workflow_dispatch' && inputs.enviar && '--enviar' || '' }}
+          ${{ github.event_name == 'workflow_dispatch' && !inputs.enviar && '--no-enviar' || '' }}
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          BITRIX_WEBHOOK_URL: ${{ secrets.BITRIX_WEBHOOK_URL }}
+          BITRIX_CHAT_ID: ${{ secrets.BITRIX_CHAT_ID }}
+          FECHA: ${{ inputs.fecha }}
+
+      - name: Guardar imagen generada
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-${{ github.run_number }}
+          path: salida/
+          retention-days: 30
+          if-no-files-found: ignore
