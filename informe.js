@@ -52,7 +52,8 @@ function requerido(nombre) {
 }
 
 const hoy = hoyEn(config.zonaHoraria);
-if (process.env.GITHUB_EVENT_NAME === 'schedule' && config.feriados.includes(hoy)) {
+const programado = process.env.GITHUB_EVENT_NAME === 'schedule' || process.env.PROGRAMADO === '1';
+if (programado && config.feriados.includes(hoy)) {
   console.log(`Hoy (${hoy}) es feriado según config.json; no se envía informe.`);
   process.exit(0);
 }
