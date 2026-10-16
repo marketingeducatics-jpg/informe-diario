@@ -1,9 +1,12 @@
 name: Informe diario Meta Ads
+run-name: ${{ (github.event_name == 'schedule' || inputs.enviar) && 'Informe diario (envío)' || 'Informe diario (prueba)' }}
 
 on:
+  # El envío puntual de las 07:45 lo dispara cron-job.org (ver README). Este horario es solo un
+  # respaldo: GitHub retrasa las ejecuciones programadas hasta varias horas, así que si a la hora en
+  # que corre ya hubo un envío exitoso hoy, no hace nada.
   schedule:
-    # Lunes a viernes 12:45 UTC = 07:45 Ecuador (GitHub puede retrasarlo unos minutos).
-    - cron: '45 12 * * 1-5'
+    - cron: '15 13 * * 1-5'   # 08:15 Ecuador
   workflow_dispatch:
     inputs:
       enviar:
@@ -20,8 +23,16 @@ on:
         description: 'Usar datos de ejemplo (12 oct 2026) en lugar de Meta'
         type: boolean
         default: false
+      programado:
+        description: 'Ejecución programada externa (respeta feriados)'
+        type: boolean
+        default: false
 
 concurrency: informe-diario
+
+permissions:
+  actions: read
+  contents: read
 
 jobs:
   informe:
@@ -29,18 +40,37 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
+      - name: Comprobar si ya se envió hoy
+        id: control
+        if: github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          desde="$(TZ=America/Guayaquil date +%F)T05:00:00Z"   # medianoche de Ecuador en UTC
+          n=$(gh run list -R "$GITHUB_REPOSITORY" --workflow informe-diario.yml --status success \
+                --created ">=$desde" --json displayTitle \
+                --jq '[.[] | select(.displayTitle == "Informe diario (envío)")] | length')
+          if [ "$n" -gt 0 ]; then
+            echo "El informe de hoy ya se envió; no se hace nada."
+            echo "ya=si" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/checkout@v6
+        if: steps.control.outputs.ya != 'si'
 
       - uses: actions/setup-node@v6
+        if: steps.control.outputs.ya != 'si'
         with:
           node-version: 22
 
       - name: Instalar dependencias
+        if: steps.control.outputs.ya != 'si'
         run: |
           npm install --no-audit --no-fund
           npx playwright install --with-deps chromium
 
       - name: Generar y enviar informe
+        if: steps.control.outputs.ya != 'si'
         run: >-
           node informe.js
           ${{ inputs.demo && '--demo' || '' }}
@@ -52,9 +82,10 @@ jobs:
           BITRIX_CHAT_ID: ${{ secrets.BITRIX_CHAT_ID }}
           DESDE: ${{ inputs.desde }}
           HASTA: ${{ inputs.hasta }}
+          PROGRAMADO: ${{ inputs.programado && '1' || '' }}
 
       - name: Guardar imagen generada
-        if: always()
+        if: always() && steps.control.outputs.ya != 'si'
         uses: actions/upload-artifact@v6
         with:
           name: informe-${{ github.run_number }}
